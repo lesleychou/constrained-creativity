@@ -1,0 +1,283 @@
+{
+ "meta": {
+  "id": "cc-vs-free",
+  "title": "Unconstrained AI vs. Constrained Creativity",
+  "kind": "mechanism",
+  "figure_kind": "mechanism",
+  "column": "double",
+  "width_pt": 504,
+  "max_height_pt": 246,
+  "template": "mechanism",
+  "direction": "top-down",
+  "panels": 2,
+  "palette": "cool-grey-cyan",
+  "font": "helvetica",
+  "step_markers": "none",
+  "language": "en",
+  "version": 1,
+  "mechanism": {
+   "group": "comparison",
+   "groups": [],
+   "worked_example": false,
+   "base": "flowchart",
+   "arrangement": "panels-row",
+   "frame_template": "aligned",
+   "delta_marking": "colour",
+   "zoom_callout": false,
+   "notes": "rows aligned across panels; centre gutter carries Input/Output row labels and the qualitative scorecard; height exceeds the 130-180 pt band deliberately (blog figure with scorecard)"
+  },
+  "caption_draft": "Figure 1. Left: an unconstrained agent receives the alert with the full telemetry and may emit\narbitrary code; nothing checks its answer. Right: with constrained creativity, the LLM composes a program from a\nDSL of domain operators; a verifier checks it (retrying on failure) and a runtime engine executes it over the\ntelemetry. On root cause analysis, the same LLM is 9\u00d7 more accurate while using 12.5\u00d7 fewer tokens."
+ },
+ "panels": [
+  {
+   "id": "p-free",
+   "label": "Unconstrained AI",
+   "axis": "alternatives",
+   "order": 0,
+   "differs": "",
+   "verdict": "hard to verify, low accuracy, high cost"
+  },
+  {
+   "id": "p-cc",
+   "label": "Constrained Creativity",
+   "axis": "alternatives",
+   "order": 1,
+   "template_of": "p-free",
+   "differs": "LLM composes a DSL program that a verifier checks before a runtime engine executes it over the data",
+   "verdict": "verifiable, high accuracy, low cost"
+  }
+ ],
+ "nodes": [
+  {
+   "id": "free-input",
+   "label": "Task + all raw data",
+   "sublabel": "in the prompt",
+   "kind": "module",
+   "role": "existing",
+   "panel": "p-free"
+  },
+  {
+   "id": "free-llm",
+   "label": "LLM",
+   "kind": "module",
+   "role": "existing",
+   "panel": "p-free"
+  },
+  {
+   "id": "free-code",
+   "label": "Arbitrary code",
+   "sublabel": "any code, any action",
+   "kind": "module",
+   "role": "baseline",
+   "panel": "p-free"
+  },
+  {
+   "id": "free-out",
+   "label": "Unchecked answer",
+   "kind": "module",
+   "role": "baseline",
+   "panel": "p-free"
+  },
+  {
+   "id": "cc-task",
+   "label": "Task",
+   "kind": "module",
+   "role": "existing",
+   "panel": "p-cc"
+  },
+  {
+   "id": "cc-dsl",
+   "label": "DSL",
+   "sublabel": "operators + structure",
+   "kind": "module",
+   "role": "novel",
+   "panel": "p-cc"
+  },
+  {
+   "id": "cc-llm",
+   "label": "LLM",
+   "kind": "module",
+   "role": "existing",
+   "panel": "p-cc"
+  },
+  {
+   "id": "cc-prog",
+   "label": "DSL program",
+   "kind": "module",
+   "role": "novel",
+   "panel": "p-cc"
+  },
+  {
+   "id": "cc-verify",
+   "label": "Verifier",
+   "kind": "module",
+   "role": "novel",
+   "panel": "p-cc"
+  },
+  {
+   "id": "cc-runtime",
+   "label": "Runtime engine",
+   "kind": "module",
+   "role": "novel",
+   "panel": "p-cc"
+  },
+  {
+   "id": "cc-data",
+   "label": "Data",
+   "kind": "module",
+   "role": "existing",
+   "panel": "p-cc"
+  },
+  {
+   "id": "cc-out",
+   "label": "Verified answer",
+   "kind": "module",
+   "role": "novel",
+   "panel": "p-cc"
+  }
+ ],
+ "edges": [
+  {
+   "id": "e-free-1",
+   "from": "free-input",
+   "to": "free-llm",
+   "kind": "data"
+  },
+  {
+   "id": "e-free-2",
+   "from": "free-llm",
+   "to": "free-code",
+   "kind": "data"
+  },
+  {
+   "id": "e-free-3",
+   "from": "free-code",
+   "to": "free-out",
+   "kind": "data",
+   "label": "no verification"
+  },
+  {
+   "id": "e-cc-1",
+   "from": "cc-task",
+   "to": "cc-llm",
+   "kind": "data"
+  },
+  {
+   "id": "e-cc-2",
+   "from": "cc-dsl",
+   "to": "cc-llm",
+   "kind": "data"
+  },
+  {
+   "id": "e-cc-3",
+   "from": "cc-llm",
+   "to": "cc-prog",
+   "kind": "data"
+  },
+  {
+   "id": "e-cc-4",
+   "from": "cc-prog",
+   "to": "cc-verify",
+   "kind": "data"
+  },
+  {
+   "id": "e-cc-5",
+   "from": "cc-verify",
+   "to": "cc-runtime",
+   "kind": "data",
+   "label": "valid"
+  },
+  {
+   "id": "e-cc-6",
+   "from": "cc-runtime",
+   "to": "cc-out",
+   "kind": "data"
+  },
+  {
+   "id": "e-cc-7",
+   "from": "cc-data",
+   "to": "cc-runtime",
+   "kind": "data"
+  },
+  {
+   "id": "e-cc-retry",
+   "from": "cc-verify",
+   "to": "cc-llm",
+   "kind": "feedback",
+   "style": "dashed",
+   "label": "retry if invalid"
+  }
+ ],
+ "annotations": [
+  {
+   "id": "lbl-input",
+   "kind": "label",
+   "text": "Input"
+  },
+  {
+   "id": "lbl-output",
+   "kind": "label",
+   "text": "Output"
+  },
+  {
+   "id": "rule",
+   "kind": "label",
+   "text": "scorecard divider"
+  },
+  {
+   "id": "sc-reliability",
+   "kind": "label",
+   "text": "Reliability"
+  },
+  {
+   "id": "v-free-reliability",
+   "kind": "verdict",
+   "text": "Hard to verify"
+  },
+  {
+   "id": "v-cc-reliability",
+   "kind": "verdict",
+   "text": "Verifiable"
+  },
+  {
+   "id": "sc-accuracy",
+   "kind": "label",
+   "text": "Accuracy"
+  },
+  {
+   "id": "v-free-accuracy",
+   "kind": "verdict",
+   "text": "Low"
+  },
+  {
+   "id": "v-cc-accuracy",
+   "kind": "verdict",
+   "text": "High"
+  },
+  {
+   "id": "sc-cost",
+   "kind": "label",
+   "text": "Cost"
+  },
+  {
+   "id": "v-free-cost",
+   "kind": "verdict",
+   "text": "High"
+  },
+  {
+   "id": "v-cc-cost",
+   "kind": "verdict",
+   "text": "Low"
+  },
+  {
+   "id": "title-free",
+   "kind": "label",
+   "text": "Unconstrained AI"
+  },
+  {
+   "id": "title-cc",
+   "kind": "label",
+   "text": "Constrained Creativity"
+  }
+ ]
+}

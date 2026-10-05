@@ -1,0 +1,12 @@
+{%- assign roster = '' | split: '' -%}
+{%- for section in site.data.people -%}
+{%- assign roster = roster | concat: section.members -%}
+{%- endfor -%}
+{%- for id in include.authors -%}
+{%- assign person = roster | where: 'id', id | first -%}
+{%- if forloop.index > 1 %}, {% endif -%}
+{%- if person.website -%}<a href="{{ person.website }}">{{ person.name }}</a>
+{%- elsif person -%}{{ person.name }}
+{%- else -%}{{ id }}
+{%- endif -%}
+{%- endfor -%}

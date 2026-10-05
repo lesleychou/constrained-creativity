@@ -1,0 +1,52 @@
+---
+layout: null
+permalink: /feed.xml
+sitemap: false
+---
+{%- comment -%}
+  The site's Atom feed, written out here rather than left to jekyll-feed.
+
+  The plugin resolves a post's author against site.data.authors - a flat hash
+  keyed by the author string - and this site keeps its people in _data/people.yml,
+  grouped into the sections the People page renders. Pointing the plugin at that
+  would have meant a second copy of everyone's name to drift out of step, so the
+  feed reads the roster the same way _includes/byline.html does instead: flatten
+  the sections, look each id up. One list of people, used by both.
+
+  It also means every author of a post appears, not only the first - Atom allows
+  repeated <author>, and these posts have three.
+{%- endcomment -%}
+{%- assign roster = '' | split: '' -%}
+{%- for section in site.data.people -%}{%- assign roster = roster | concat: section.members -%}{%- endfor -%}
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <generator uri="https://jekyllrb.com/" version="{{ jekyll.version }}">Jekyll</generator>
+  <link href="{{ '/feed.xml' | absolute_url }}" rel="self" type="application/atom+xml" />
+  <link href="{{ '/' | absolute_url }}" rel="alternate" type="text/html" />
+  <updated>{{ site.time | date_to_xmlschema }}</updated>
+  <id>{{ '/feed.xml' | absolute_url | xml_escape }}</id>
+  <title type="html">{{ site.title | smartify | xml_escape }}</title>
+  <subtitle>{{ site.description | xml_escape }}</subtitle>
+  {%- for post in site.posts limit: 20 %}
+  <entry>
+    <title type="html">{{ post.title | smartify | strip_html | normalize_whitespace | xml_escape }}</title>
+    <link href="{{ post.url | absolute_url }}" rel="alternate" type="text/html" title="{{ post.title | xml_escape }}" />
+    <published>{{ post.date | date_to_xmlschema }}</published>
+    <updated>{{ post.last_modified_at | default: post.date | date_to_xmlschema }}</updated>
+    <id>{{ post.id | absolute_url | xml_escape }}</id>
+    <content type="html" xml:base="{{ post.url | absolute_url | xml_escape }}">{{ post.content | strip | xml_escape }}</content>
+    {%- for id in post.authors %}
+    {%- assign person = roster | where: 'id', id | first %}
+    <author>
+      <name>{{ person.name | default: id | xml_escape }}</name>
+      {%- if person.website %}
+      <uri>{{ person.website | xml_escape }}</uri>
+      {%- endif %}
+    </author>
+    {%- endfor %}
+    {%- if post.description %}
+    <summary type="html">{{ post.description | strip_html | normalize_whitespace | xml_escape }}</summary>
+    {%- endif %}
+  </entry>
+  {%- endfor %}
+</feed>

@@ -1,0 +1,61 @@
+{%- comment -%}
+  A table, rendered the same way every time from a CSV.
+
+      {% include modules/table.html data="harnesses" %}
+      {% include modules/table.html data="harnesses" caption="What each one does." %}
+      {% include modules/table.html data="cc-vs-x" class="table-soft" %}
+
+  `class` adds a style variant to the wrapper; "table-soft" is the lighter
+  reading table in assets/css/base.css (body-font headers, row rules only,
+  last column accented, rows stacked as cards on a phone).
+
+  `data` names a file under _data/tables/, without the .csv - so "harnesses"
+  is _data/tables/harnesses.csv. Jekyll parses it into one hash per row, keyed
+  by the header row, in column order; the header row is the only place column
+  labels and their order are written down.
+
+  Cells are markdown, so links (`[Incalmo](https://...)`), `code` and emphasis
+  all work, and a cell containing a comma just needs the usual CSV quoting.
+  markdownify wraps its output in a paragraph, which would inherit .content p's
+  indent inside a cell, so the wrapper is unwrapped again here - a cell is
+  expected to be one paragraph.
+
+  Everything about how it looks lives in .table-wrap / .content table in
+  assets/css/base.css, including the light and dark palettes and the
+  horizontal scroll it gets on a phone. Nothing here sets a colour.
+{%- endcomment -%}
+
+{%- assign tables = site.data.tables -%}
+{%- if tables and include.data -%}{%- assign rows = tables[include.data] -%}{%- endif -%}
+{%- if rows == nil or rows.size == 0 -%}
+  {%- comment -%}
+    Say so on the page rather than rendering an empty table or failing the
+    build - the same way a chart that cannot load says so in figures.js.
+  {%- endcomment -%}
+  <div class="figure-placeholder">No rows in _data/tables/{{ include.data | default: "?" }}.csv</div>
+{%- else -%}
+<div class="table-wrap{% if include.class %} {{ include.class }}{% endif %}">
+<table>
+<thead>
+<tr>
+{%- for column in rows[0] -%}
+<th scope="col">{{ column[0] }}</th>
+{%- endfor -%}
+</tr>
+</thead>
+<tbody>
+{%- for row in rows -%}
+<tr>
+{%- for cell in row -%}
+<td data-label="{{ cell[0] | escape }}">{{ cell[1] | markdownify | remove: '<p>' | remove: '</p>' | strip }}</td>
+{%- endfor -%}
+</tr>
+{%- endfor -%}
+</tbody>
+</table>
+</div>
+{%- if include.caption %}
+
+<p class="figure-caption">{{ include.caption | markdownify | remove: '<p>' | remove: '</p>' | strip }}</p>
+{%- endif -%}
+{%- endif -%}

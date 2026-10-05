@@ -1,0 +1,29 @@
+title: Constrained Creativity
+description: A blog series on Constrained Creativity, building reliable AI agents by being deliberate about where AI is allowed to be creative.
+url: https://lesleychou.github.io
+# baseurl (/constrained-creativity) is supplied by the Pages workflow at build time
+timezone: "America/New_York"
+
+permalink: /blogposts/:title/
+
+collections:
+  publications:
+    output: false
+
+defaults:
+  - scope: { path: "", type: "posts" }
+    values: { layout: "entry" }
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - LICENSE
+  - README.md
+  - claude_changelog.txt
+  - vendor
+  - figs
+  - serve.sh
+
+plugins:
+  - jekyll-sitemap
+

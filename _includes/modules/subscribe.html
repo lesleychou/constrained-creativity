@@ -1,0 +1,52 @@
+{%- comment -%}
+  Email signup.
+
+      {% include modules/subscribe.html %}
+
+  Two modes, set in _config.yml. Use `url` where the list has its own signup
+  page, and `action` only where the provider accepts a plain form post:
+
+      subscribe:
+        url: https://lists.andrew.cmu.edu/mailman/listinfo/cylab-cyberautonomy
+        note: One email per new post...    # optional, takes markdown
+
+      subscribe:
+        action: https://buttondown.com/api/emails/embed-subscribe/<name>
+        field: email                       # the input's name
+
+  `url` is what this site uses, because the field-on-the-page version cannot
+  work against CMU Mailman: its subscribe form carries a Google reCAPTCHA, so a
+  post from anywhere else comes back "The captcha failed", and the site key is
+  registered to lists.andrew.cmu.edu so the widget cannot be rendered here
+  either. Checked against the live endpoint rather than assumed - posting the
+  right field name reaches the captcha check, posting the wrong one gets
+  "You must supply a valid email address", which is how we know the field name
+  was never the problem.
+
+  Sending people to Mailman's own page is also just better: it is where
+  unsubscribing and the archives live, and the confirmation mail it sends means
+  nobody can be signed up by someone else typing their address.
+
+  With neither key set this renders nothing, so it can sit in the markup before
+  a list exists. Nothing here sets a colour; it uses the site's own tokens and
+  follows light and dark for free.
+{%- endcomment -%}
+{%- if site.subscribe.url or site.subscribe.action -%}
+<div class="subscribe">
+  <p class="subscribe-label">{{ include.label | default: "Get new posts by email" }}</p>
+  {%- if site.subscribe.url %}
+  <p class="subscribe-row"><a class="subscribe-button" href="{{ site.subscribe.url }}">Subscribe to the mailing list</a></p>
+  {%- else %}
+  <form class="subscribe-row" action="{{ site.subscribe.action }}" method="post" target="_blank">
+    <label class="visually-hidden" for="subscribe-email">Email address</label>
+    <input class="subscribe-input" id="subscribe-email" type="email"
+           name="{{ site.subscribe.field | default: 'email' }}"
+           placeholder="you@example.edu" autocomplete="email" required>
+    <button class="subscribe-button" type="submit">Subscribe</button>
+  </form>
+  {%- endif %}
+  {%- if site.subscribe.note %}
+  <p class="subscribe-note">{{ site.subscribe.note | markdownify | remove: '<p>' | remove: '</p>' | strip }}</p>
+  {%- endif %}
+</div>
+{%- endif -%}

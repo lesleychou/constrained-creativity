@@ -1,0 +1,313 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "_comment": [
+    "RCA accuracy vs. cost (constrained-creativity post, Fig. 4). Values are read off the LegoRCA scatter plot in the blog draft (approximate, +/- ~1 point / ~$0.05);",
+    "replace with the exact numbers from the LegoRCA evaluation before publishing."
+  ],
+  "width": "container",
+  "height": 300,
+  "data": {
+    "values": [
+      {
+        "method": "LegoRCA (Constrained Creativity)",
+        "cost": 0.28,
+        "accuracy": 82.5,
+        "group": "ours"
+      },
+      {
+        "method": "Terminus-2",
+        "cost": 2.27,
+        "accuracy": 63.0,
+        "group": "baseline"
+      },
+      {
+        "method": "RCA-Agent",
+        "cost": 2.16,
+        "accuracy": 50.0,
+        "group": "baseline"
+      },
+      {
+        "method": "LLM-only",
+        "cost": 1.54,
+        "accuracy": 34.5,
+        "group": "baseline"
+      }
+    ]
+  },
+  "encoding": {
+    "x": {
+      "field": "cost",
+      "type": "quantitative",
+      "title": "Avg. cost per incident (US$)",
+      "scale": {
+        "domain": [
+          0,
+          2.7
+        ],
+        "nice": false
+      },
+      "axis": {
+        "labelFontSize": 13,
+        "titleFontSize": 14,
+        "titlePadding": 10,
+        "labelPadding": 6,
+        "tickSize": 6,
+        "values": [
+          0,
+          0.5,
+          1,
+          1.5,
+          2,
+          2.5
+        ],
+        "format": ".1f"
+      }
+    },
+    "y": {
+      "field": "accuracy",
+      "type": "quantitative",
+      "title": "Avg. accuracy (%)",
+      "scale": {
+        "domain": [
+          0,
+          100
+        ]
+      },
+      "axis": {
+        "labelFontSize": 13,
+        "titleFontSize": 14,
+        "titlePadding": 10,
+        "labelPadding": 6,
+        "tickSize": 6,
+        "values": [
+          0,
+          20,
+          40,
+          60,
+          80,
+          100
+        ]
+      }
+    }
+  },
+  "layer": [
+    {
+      "transform": [
+        {
+          "filter": "datum.group === 'ours'"
+        }
+      ],
+      "mark": {
+        "type": "point",
+        "filled": true,
+        "opacity": 1,
+        "shape": "M0,-1L0.235,-0.324L0.951,-0.309L0.38,0.124L0.588,0.809L0,0.4L-0.588,0.809L-0.38,0.124L-0.951,-0.309L-0.235,-0.324Z",
+        "size": 260,
+        "color": "$accent"
+      },
+      "encoding": {
+        "tooltip": [
+          {
+            "field": "method",
+            "title": "Method"
+          },
+          {
+            "field": "accuracy",
+            "title": "Avg. accuracy (%)",
+            "format": ".0f"
+          },
+          {
+            "field": "cost",
+            "title": "Avg. cost / incident (US$)",
+            "format": "$.2f"
+          }
+        ]
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum.method === 'Terminus-2'"
+        }
+      ],
+      "mark": {
+        "type": "point",
+        "filled": true,
+        "opacity": 1,
+        "size": 120,
+        "shape": "square",
+        "color": "$cat-1"
+      },
+      "encoding": {
+        "tooltip": [
+          {
+            "field": "method",
+            "title": "Method"
+          },
+          {
+            "field": "accuracy",
+            "title": "Avg. accuracy (%)",
+            "format": ".0f"
+          },
+          {
+            "field": "cost",
+            "title": "Avg. cost / incident (US$)",
+            "format": "$.2f"
+          }
+        ]
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum.method === 'RCA-Agent'"
+        }
+      ],
+      "mark": {
+        "type": "point",
+        "filled": true,
+        "opacity": 1,
+        "size": 120,
+        "shape": "triangle-up",
+        "color": "$cat-3"
+      },
+      "encoding": {
+        "tooltip": [
+          {
+            "field": "method",
+            "title": "Method"
+          },
+          {
+            "field": "accuracy",
+            "title": "Avg. accuracy (%)",
+            "format": ".0f"
+          },
+          {
+            "field": "cost",
+            "title": "Avg. cost / incident (US$)",
+            "format": "$.2f"
+          }
+        ]
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum.method === 'LLM-only'"
+        }
+      ],
+      "mark": {
+        "type": "point",
+        "filled": true,
+        "opacity": 1,
+        "size": 120,
+        "shape": "diamond",
+        "color": "$ink-dim"
+      },
+      "encoding": {
+        "tooltip": [
+          {
+            "field": "method",
+            "title": "Method"
+          },
+          {
+            "field": "accuracy",
+            "title": "Avg. accuracy (%)",
+            "format": ".0f"
+          },
+          {
+            "field": "cost",
+            "title": "Avg. cost / incident (US$)",
+            "format": "$.2f"
+          }
+        ]
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum.method === 'LegoRCA (Constrained Creativity)'"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "dx": 12,
+        "dy": -8,
+        "fontSize": 15,
+        "color": "$accent",
+        "text": "LegoRCA",
+        "fontWeight": "bold"
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum.method === 'LegoRCA (Constrained Creativity)'"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "dx": 12,
+        "dy": 9,
+        "fontSize": 12,
+        "color": "$accent",
+        "text": "(Constrained Creativity)"
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum.method === 'Terminus-2'"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "right",
+        "baseline": "middle",
+        "dx": -10,
+        "dy": -10,
+        "fontSize": 13,
+        "color": "$ink",
+        "text": "Terminus-2"
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum.method === 'RCA-Agent'"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "right",
+        "baseline": "middle",
+        "dx": -10,
+        "dy": 0,
+        "fontSize": 13,
+        "color": "$ink",
+        "text": "RCA-Agent"
+      }
+    },
+    {
+      "transform": [
+        {
+          "filter": "datum.method === 'LLM-only'"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "align": "right",
+        "baseline": "middle",
+        "dx": -10,
+        "dy": 10,
+        "fontSize": 13,
+        "color": "$ink",
+        "text": "LLM-only"
+      }
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  {%- comment -%}
+    Inline and first in <head> so the theme is on <html> before the first
+    paint - deferring this to a loaded script flashes the wrong theme on
+    every page load. An explicit choice always wins; with no choice stored
+    we follow the operating system, and fall back to dark where the browser
+    won't say (which is what everyone used to get unconditionally).
+  {%- endcomment -%}
+  <script>
+    (function () {
+        var t;
+        try { t = localStorage.getItem("theme"); } catch (e) {}
+        if (t !== "light" && t !== "dark") {
+            t = window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches
+                ? "light" : "dark";
+        }
+        document.documentElement.setAttribute("data-theme", t);
+    })();
+  </script>
+
+  {%- capture pagetitle -%}
+    {%- if page.title -%}{{ page.title | strip_html | xml_escape }}{%- else -%}{{ site.title | strip_html | xml_escape }}{%- endif -%}
+  {%- endcapture -%}
+  {%- capture title -%}
+    {%- if site.title != pagetitle -%}{{ pagetitle }} | {{ site.title }}{%- else -%}{{ pagetitle }}{%- endif -%}
+  {%- endcapture -%}
+  {%- capture description -%}
+    {%- if page.description -%}{{ page.description | strip_html | xml_escape }}{%- elsif page.subtitle -%}{{ page.subtitle | strip_html | xml_escape }}{%- else -%}{{ page.content | strip_html | xml_escape | truncatewords: 50 | strip }}{%- endif -%}
+  {%- endcapture -%}
+
+  <title>{{ title }}</title>
+  <meta name="description" content="{{ description }}">
+
+  {%- comment -%} see the cache-busting note in _layouts/base.html {%- endcomment -%}
+  <link rel="stylesheet" href="{{ '/assets/css/base.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+
+  {%- comment -%}
+    Declaring the icons explicitly also stops the browser probing /favicon.ico
+    on every page, which was a 404 in the console. The content of theme-color
+    is filled in from --surface by assets/js/theme.js, so the phone's address
+    bar tracks the theme without a second copy of the palette living here.
+  {%- endcomment -%}
+  <link rel="icon" href="{{ '/assets/img/icons/favicon.ico' | relative_url }}" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ '/assets/img/icons/favicon-32.png' | relative_url }}">
+  <link rel="icon" type="image/png" sizes="512x512" href="{{ '/assets/img/icons/favicon-512.png' | relative_url }}">
+  <link rel="apple-touch-icon" href="{{ '/assets/img/icons/apple-touch-icon.png' | relative_url }}">
+  <meta name="theme-color" content="#191919">
+
+  {%- comment -%}
+    Autodiscovery: a feed reader (or a browser extension) finds /feed.xml from
+    any page on the site, so a reader can be given the bare domain.
+  {%- endcomment -%}
+  <link rel="alternate" type="application/atom+xml" href="{{ '/feed.xml' | absolute_url }}" title="{{ site.title | xml_escape }}">
+
+  <meta property="og:site_name" content="{{ site.title }}">
+  <meta property="og:title" content="{{ title }}">
+  <meta property="og:description" content="{{ description }}">
+  {% if page.id %}
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="{{ page.url | absolute_url }}">
+  <link rel="canonical" href="{{ page.url | absolute_url }}">
+  {% else %}
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="{{ page.url | absolute_url }}">
+  <link rel="canonical" href="{{ page.url | absolute_url }}">
+  {% endif %}
+</head>

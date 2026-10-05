@@ -1,0 +1,480 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "data": {
+    "url": "/assets/data/open-weights-runs.json"
+  },
+  "params": [
+    {
+      "name": "groupBy",
+      "value": "harness",
+      "bind": {
+        "input": "select",
+        "options": [
+          "harness",
+          "model"
+        ],
+        "labels": [
+          "Harness",
+          "Model"
+        ],
+        "name": "Group blobs by "
+      }
+    }
+  ],
+  "transform": [
+    {
+      "filter": "isValid(datum.cost)"
+    }
+  ],
+  "width": "container",
+  "height": 420,
+  "autosize": {
+    "type": "fit",
+    "contains": "padding"
+  },
+  "layer": [
+    {
+      "transform": [
+        {
+          "aggregate": [
+            {
+              "op": "mean",
+              "field": "cost",
+              "as": "meanCost"
+            },
+            {
+              "op": "stdev",
+              "field": "cost",
+              "as": "stdCost"
+            },
+            {
+              "op": "mean",
+              "field": "exfiltrated",
+              "as": "meanGoals"
+            },
+            {
+              "op": "stdev",
+              "field": "exfiltrated",
+              "as": "stdGoals"
+            },
+            {
+              "op": "count",
+              "as": "runs"
+            }
+          ],
+          "groupby": [
+            "harness"
+          ]
+        },
+        {
+          "calculate": "max(0, datum.meanCost - datum.stdCost)",
+          "as": "x0"
+        },
+        {
+          "calculate": "datum.meanCost + datum.stdCost",
+          "as": "x1"
+        },
+        {
+          "calculate": "max(0, datum.meanGoals - datum.stdGoals)",
+          "as": "y0"
+        },
+        {
+          "calculate": "min(100, datum.meanGoals + datum.stdGoals)",
+          "as": "y1"
+        },
+        {
+          "filter": "groupBy === 'harness'"
+        }
+      ],
+      "mark": {
+        "type": "rect",
+        "cornerRadius": 80,
+        "opacity": 0.28
+      },
+      "encoding": {
+        "x": {
+          "field": "x0",
+          "type": "quantitative"
+        },
+        "x2": {
+          "field": "x1"
+        },
+        "y": {
+          "field": "y0",
+          "type": "quantitative"
+        },
+        "y2": {
+          "field": "y1"
+        },
+        "tooltip": [
+          {
+            "field": "harness",
+            "title": "Harness"
+          },
+          {
+            "field": "meanCost",
+            "type": "quantitative",
+            "format": "$,.2f",
+            "title": "Mean cost / run"
+          },
+          {
+            "field": "meanGoals",
+            "type": "quantitative",
+            "format": ".1f",
+            "title": "Mean % goals achieved"
+          },
+          {
+            "field": "runs",
+            "type": "quantitative",
+            "title": "Runs (all models)"
+          }
+        ],
+        "color": {
+          "field": "harness",
+          "type": "nominal",
+          "sort": [
+            "Incalmo",
+            "Artemis",
+            "Shell"
+          ]
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "aggregate": [
+            {
+              "op": "mean",
+              "field": "cost",
+              "as": "meanCost"
+            },
+            {
+              "op": "stdev",
+              "field": "cost",
+              "as": "stdCost"
+            },
+            {
+              "op": "mean",
+              "field": "exfiltrated",
+              "as": "meanGoals"
+            },
+            {
+              "op": "stdev",
+              "field": "exfiltrated",
+              "as": "stdGoals"
+            },
+            {
+              "op": "count",
+              "as": "runs"
+            }
+          ],
+          "groupby": [
+            "model"
+          ]
+        },
+        {
+          "calculate": "max(0, datum.meanCost - datum.stdCost)",
+          "as": "x0"
+        },
+        {
+          "calculate": "datum.meanCost + datum.stdCost",
+          "as": "x1"
+        },
+        {
+          "calculate": "max(0, datum.meanGoals - datum.stdGoals)",
+          "as": "y0"
+        },
+        {
+          "calculate": "min(100, datum.meanGoals + datum.stdGoals)",
+          "as": "y1"
+        },
+        {
+          "filter": "groupBy === 'model'"
+        }
+      ],
+      "mark": {
+        "type": "rect",
+        "cornerRadius": 80,
+        "opacity": 0.28,
+        "fill": "#898781"
+      },
+      "encoding": {
+        "x": {
+          "field": "x0",
+          "type": "quantitative"
+        },
+        "x2": {
+          "field": "x1"
+        },
+        "y": {
+          "field": "y0",
+          "type": "quantitative"
+        },
+        "y2": {
+          "field": "y1"
+        },
+        "tooltip": [
+          {
+            "field": "model",
+            "title": "Model"
+          },
+          {
+            "field": "meanCost",
+            "type": "quantitative",
+            "format": "$,.2f",
+            "title": "Mean cost / run"
+          },
+          {
+            "field": "meanGoals",
+            "type": "quantitative",
+            "format": ".1f",
+            "title": "Mean % goals achieved"
+          },
+          {
+            "field": "runs",
+            "type": "quantitative",
+            "title": "Runs (all harnesses)"
+          }
+        ]
+      }
+    },
+    {
+      "transform": [
+        {
+          "aggregate": [
+            {
+              "op": "mean",
+              "field": "cost",
+              "as": "meanCost"
+            },
+            {
+              "op": "mean",
+              "field": "exfiltrated",
+              "as": "meanGoals"
+            },
+            {
+              "op": "count",
+              "as": "runs"
+            }
+          ],
+          "groupby": [
+            "model",
+            "harness",
+            "env",
+            "hosts"
+          ]
+        },
+        {
+          "calculate": "datum.env + ' (' + datum.hosts + ')'",
+          "as": "envLabel"
+        }
+      ],
+      "mark": {
+        "type": "point",
+        "filled": true,
+        "size": 110,
+        "opacity": 0.75
+      },
+      "encoding": {
+        "x": {
+          "field": "meanCost",
+          "type": "quantitative",
+          "title": "Cost",
+          "scale": {
+            "zero": true
+          },
+          "axis": {
+            "format": "$,.2f"
+          }
+        },
+        "y": {
+          "field": "meanGoals",
+          "type": "quantitative",
+          "title": "% goals achieved",
+          "scale": {
+            "domain": [
+              0,
+              100
+            ]
+          }
+        },
+        "color": {
+          "field": "harness",
+          "type": "nominal",
+          "title": "Harness",
+          "sort": [
+            "Incalmo",
+            "Artemis",
+            "Shell"
+          ]
+        },
+        "shape": {
+          "field": "model",
+          "type": "nominal",
+          "title": "Model",
+          "scale": {
+            "domain": [
+              "GLM 5.2",
+              "Kimi K3",
+              "Qwen 3.8 Max"
+            ],
+            "range": [
+              "circle",
+              "triangle-up",
+              "square"
+            ]
+          }
+        },
+        "tooltip": [
+          {
+            "field": "model",
+            "title": "Model"
+          },
+          {
+            "field": "harness",
+            "title": "Harness"
+          },
+          {
+            "field": "envLabel",
+            "title": "Environment"
+          },
+          {
+            "field": "meanCost",
+            "type": "quantitative",
+            "format": "$,.2f",
+            "title": "Mean cost / run"
+          },
+          {
+            "field": "meanGoals",
+            "type": "quantitative",
+            "format": ".1f",
+            "title": "Mean % goals achieved"
+          },
+          {
+            "field": "runs",
+            "type": "quantitative",
+            "title": "Runs"
+          }
+        ]
+      }
+    },
+    {
+      "transform": [
+        {
+          "aggregate": [
+            {
+              "op": "mean",
+              "field": "cost",
+              "as": "meanCost"
+            },
+            {
+              "op": "stdev",
+              "field": "cost",
+              "as": "stdCost"
+            },
+            {
+              "op": "mean",
+              "field": "exfiltrated",
+              "as": "meanGoals"
+            },
+            {
+              "op": "stdev",
+              "field": "exfiltrated",
+              "as": "stdGoals"
+            }
+          ],
+          "groupby": [
+            "harness"
+          ]
+        },
+        {
+          "calculate": "min(100, datum.meanGoals + datum.stdGoals)",
+          "as": "labelY"
+        },
+        {
+          "filter": "groupBy === 'harness'"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "dy": -10,
+        "baseline": "bottom",
+        "fontSize": 12,
+        "fontWeight": 700
+      },
+      "encoding": {
+        "x": {
+          "field": "meanCost",
+          "type": "quantitative"
+        },
+        "y": {
+          "field": "labelY",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "harness"
+        }
+      }
+    },
+    {
+      "transform": [
+        {
+          "aggregate": [
+            {
+              "op": "mean",
+              "field": "cost",
+              "as": "meanCost"
+            },
+            {
+              "op": "stdev",
+              "field": "cost",
+              "as": "stdCost"
+            },
+            {
+              "op": "mean",
+              "field": "exfiltrated",
+              "as": "meanGoals"
+            },
+            {
+              "op": "stdev",
+              "field": "exfiltrated",
+              "as": "stdGoals"
+            }
+          ],
+          "groupby": [
+            "model"
+          ]
+        },
+        {
+          "calculate": "min(100, datum.meanGoals + datum.stdGoals)",
+          "as": "labelY"
+        },
+        {
+          "filter": "groupBy === 'model'"
+        }
+      ],
+      "mark": {
+        "type": "text",
+        "dy": -10,
+        "baseline": "bottom",
+        "fontSize": 12,
+        "fontWeight": 700
+      },
+      "encoding": {
+        "x": {
+          "field": "meanCost",
+          "type": "quantitative"
+        },
+        "y": {
+          "field": "labelY",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "model"
+        }
+      }
+    }
+  ],
+  "_minMobileWidth": 580
+}

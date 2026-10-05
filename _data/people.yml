@@ -1,0 +1,52 @@
+- title: Professors
+  members:
+    - id: vyas-sekar
+      name: Vyas Sekar
+      photo: /assets/img/people/vyas-sekar.webp
+      website: https://users.ece.cmu.edu/~vsekar/
+    - id: lujo-bauer
+      name: Lujo Bauer
+      photo: /assets/img/people/lujo-bauer.webp
+      website: https://users.ece.cmu.edu/~lbauer/
+
+- title: Postdoctoral Researchers
+  members:
+    - id: roman-belaire
+      name: Roman Belaire
+      photo: /assets/img/people/roman-belaire.webp
+      website: https://romanbelaire.com/
+
+- title: Ph.D. Students
+  members:
+    - id: marko-morrison
+      name: Marko Morrison
+      photo: /assets/img/people/marko-morrison.webp
+      website: https://peacock4o.github.io/
+    - id: lakshmi-adiga
+      name: Lakshmi Adiga
+      photo: /assets/img/people/lakshmi-adiga.webp
+      website: https://csd.cs.cmu.edu/people/doctoral-student/lakshmi-adiga
+    - id: lesley-zhou
+      name: Lesley Zhou
+      photo: /assets/img/people/lesley-zhou.webp
+      website: https://lesleychou.github.io/
+
+- title: Masters/Undergraduate Students
+  members:
+    - id: alicia-crotty
+      name: Alicia Crotty
+    - id: shaden-almodhy
+      name: Shaden Almodhy
+      photo: /assets/img/people/shaden-almodhy.webp
+      website: https://www.linkedin.com/in/shaden-almodhy-03a151218/
+    - id: luke-erbsen
+      name: Luke Erbsen
+      website: https://www.linkedin.com/in/lukeerbsen/
+    - id: merlin-enriquez
+      name: Merlin Enriquez
+      photo: /assets/img/people/merlin-enriquez.webp
+      website: https://luvly.computer/home.html
+    - id: ella-park
+      name: Ella Park
+      photo: assets/img/people/ella-park.webp
+      website: https://ellasypark.github.io/

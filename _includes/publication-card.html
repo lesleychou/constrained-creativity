@@ -1,0 +1,7 @@
+<article class="entry-card">
+    {% if include.entry.venue %}{% if include.entry.venue_url %}<a class="venue" href="{{ include.entry.venue_url }}">{{ include.entry.venue }}</a>{% else %}<span class="venue">{{ include.entry.venue }}</span>{% endif %}{% endif %}
+    <p class="entry-title">{{ include.entry.title }}</p>
+    <p class="entry-meta">{% include byline.html authors=include.entry.authors %}</p>
+    {% if include.entry.published_in %}<p class="entry-desc">{{ include.entry.published_in }}</p>{% endif %}
+    {% if include.entry.links %}<p class="entry-links">{% for link in include.entry.links %}<a href="{{ link.url }}">{{ link.label }}</a>{% endfor %}</p>{% endif %}
+</article>

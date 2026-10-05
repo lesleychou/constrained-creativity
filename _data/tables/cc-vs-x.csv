@@ -1,0 +1,4 @@
+Compared with,What it does,What Constrained Creativity (CC) does differently
+**Jev / decision APIs**,Constrains what kind of answer the model can return,Constrains what the agent can do and how its actions can be composed.
+**Structured LLM**,"Constrains what the model can generate, using grammars and other generation-time rules",Goes one level up and designs the domain abstraction and action space the agent reasons within.
+**Neuro‑symbolic AI**,Combines neural models with explicit symbolic reasoning,Does not require changing or integrating the model.

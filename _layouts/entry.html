@@ -1,0 +1,13 @@
+---
+layout: base
+---
+
+<main class="content-grid">
+    <div class="content">
+        <h2>{{ page.title }}</h2>
+        {% if page.subtitle %}<p class="entry-subtitle">{{ page.subtitle }}</p>{% endif %}
+        <p class="entry-meta">{% include byline.html authors=page.authors %} &middot; {{ page.date | date: "%B %-d, %Y" }}</p>
+        {% if page.download %}<p class="entry-links"><a href="{{ page.download }}">Download</a></p>{% endif %}
+        {{ content }}
+    </div>
+</main>
