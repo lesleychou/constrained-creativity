@@ -804,6 +804,34 @@ html:not([data-theme="light"]) .content .figure-card img{
     padding: var(--space-sm);
     background: #f4f3ef;
 }
+/* a diagram + results pair becomes one white card in dark mode, chart
+   included: the chart re-reads its palette from its own element (see css()
+   in assets/js/figures.js), so re-declaring the light-theme values here gives
+   it dark ink on the card while the rest of the page stays dark */
+html:not([data-theme="light"]) .content .figure-pair.figure-card{
+    padding: var(--space-md);
+    border-radius: 8px;
+    background: #ffffff;
+}
+html:not([data-theme="light"]) .content .figure-pair.figure-card > img{
+    padding: 0;
+    background: none;
+}
+html:not([data-theme="light"]) .content .figure-card [data-vega]{
+    color-scheme: light;
+    --ink: #0A0A0A;
+    --ink-dim: #454545;
+    --accent: #C2410C;
+    --cat-1: #2a78d6;
+    --cat-2: #eb6834;
+    --cat-3: #1baf7a;
+    --hairline: #D2D2D2;
+    --hairline-strong: #A0A0A0;
+    --primary-color: var(--ink);
+    --secondary-color: var(--ink-dim);
+    --accent-color: var(--accent);
+    --page-bg: #ffffff;
+}
 
 /* call-to-action box */
 .content .callout{

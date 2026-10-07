@@ -4,7 +4,10 @@
     const W = (...a) => console.warn("[fig]", ...a);
     const E = (...a) => console.error("[fig]", ...a);
 
-    const css = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+    // Read from the chart's own element when given one, so a container can
+    // re-declare the palette for the charts inside it (see .figure-card in
+    // base.css, which puts a chart on a light card in dark mode).
+    const css = (n, el) => getComputedStyle(el || document.documentElement).getPropertyValue(n).trim();
 
     // The site may be served from a sub-path (a GitHub project page lives at
     // /<repo>/), so a root-absolute path like "/assets/data/x.json" - in a
@@ -77,8 +80,8 @@
     // chart drawn mid-switch used to bake in a half-faded grey, or, if it got
     // there first, the colour of the theme being left behind. See the palette
     // note at the top of assets/css/base.css.
-    const ink = () => css("--ink");
-    const inkDim = () => css("--ink-dim");
+    const ink = (el) => css("--ink", el);
+    const inkDim = (el) => css("--ink-dim", el);
 
     // Most of this is belt-and-braces: the axis/legend/title colours below are
     // also set in CSS (see "chart chrome" in base.css), which is what makes a
@@ -106,10 +109,10 @@
         });
     };
 
-    const theme = () => {
-        const ramp = ["--seq-0", "--seq-50", "--seq-100"].map(css).filter(Boolean);
-        const cats = ["--cat-1", "--cat-2", "--cat-3"].map(css).filter(Boolean);
-        const fg = ink(), dim = inkDim();
+    const theme = (el) => {
+        const ramp = ["--seq-0", "--seq-50", "--seq-100"].map(n => css(n, el)).filter(Boolean);
+        const cats = ["--cat-1", "--cat-2", "--cat-3"].map(n => css(n, el)).filter(Boolean);
+        const fg = ink(el), dim = inkDim(el);
         const disp = css("--font-display");
         const cfg = {
             background: "transparent",
@@ -154,18 +157,18 @@
     // Walking the whole spec also deep-copies it, which is what lets the
     // fetched spec be cached and re-used: render() mutates its copy.
     const TOKEN = /^\$([a-z][a-z0-9-]*)$/;
-    const resolvePalette = (v) => {
+    const resolvePalette = (v, el) => {
         if (typeof v === "string") {
             const m = TOKEN.exec(v);
             if (!m) return v;
-            const val = css("--" + m[1]);
+            const val = css("--" + m[1], el);
             if (!val) { W("unknown palette token " + v + " - left as-is"); return v; }
             return val;
         }
-        if (Array.isArray(v)) return v.map(resolvePalette);
+        if (Array.isArray(v)) return v.map(x => resolvePalette(x, el));
         if (v && typeof v === "object") {
             const out = {};
-            Object.keys(v).forEach(k => { out[k] = resolvePalette(v[k]); });
+            Object.keys(v).forEach(k => { out[k] = resolvePalette(v[k], el); });
             return out;
         }
         return v;
@@ -314,8 +317,8 @@
     // Fill and stroke both, since which one a symbol uses depends on its
     // shape. The colour legend is deliberately untouched - those symbols
     // carry the category colours and have to keep them.
-    const patchShapeLegend = (spec) => {
-        const dim = inkDim();
+    const patchShapeLegend = (spec, el) => {
+        const dim = inkDim(el);
         if (!dim) return spec;
         units(spec).forEach((u) => {
             const enc = u.encoding;
@@ -421,7 +424,7 @@
         loadSpec(src)
             .then(raw => {
                 // resolvePalette deep-copies, so the cached spec is never touched
-                const spec = rebaseDataUrls(resolvePalette(raw));
+                const spec = rebaseDataUrls(resolvePalette(raw, el));
                 el._params = (spec.params || []).filter(p => p.bind).map(p => p.name);
                 L("spec keys:", Object.keys(spec).join(","), " data.url=", spec.data && spec.data.url);
                 if (!VERBOSE) return spec;
@@ -434,7 +437,7 @@
                     });
             })
             .then(spec => {
-                spec = patchShapeLegend(spec);
+                spec = patchShapeLegend(spec, el);
                 if (isMobile()) {
                     spec = applyMobileParams(spec);
                     spec = stackFacets(spec);
@@ -463,7 +466,7 @@
                 registerSchemes();
                 // tooltip: the second half of stripTooltips - see there.
                 return vegaEmbed(inner, spec, {
-                    config: theme(), renderer: "svg", logLevel: VERBOSE ? 3 : 1,
+                    config: theme(el), renderer: "svg", logLevel: VERBOSE ? 3 : 1,
                     tooltip: canHover(),
                     actions: { export: true, source: false, compiled: false, editor: false }
                 });
