@@ -24,7 +24,11 @@ description: Giving AI agents unlimited freedom makes them expensive and hard to
   </ul>
 </div>
 
-<div class="figure figure-image figure-card"><img src="{{ '/assets/img/posts/constrained-creativity/freeform-vs-cc.png' | relative_url }}" alt="Side-by-side comparison. Left, Free-form LLM: a task goes to an LLM that iterates on arbitrary programs or text and returns an answer with no evidence; it is expressive but not explainable, effective or efficient. Right, Constrained Creativity: the task and a DSL or playbook feed the LLM, which iterates on a DSL program executed by a DSL runtime engine and returns an answer with evidence; it is expressive, explainable, effective and efficient."></div>
+<div class="figure figure-compare figure-card">
+  <img src="{{ '/assets/img/posts/constrained-creativity/free-form-llm.png' | relative_url }}" alt="Free-form LLM: a task goes to an LLM that iterates on arbitrary programs or text and returns an answer with no evidence; it is neither effective nor efficient.">
+  <div class="figure-divider" aria-hidden="true"></div>
+  <img src="{{ '/assets/img/posts/constrained-creativity/cc-structure.png' | relative_url }}" alt="Constrained Creativity: the task feeds the LLM and selects a DSL or playbook that also feeds the LLM; the LLM iterates on a DSL program executed by a DSL runtime engine and returns an answer with evidence; it is expressive, explainable, effective and efficient.">
+</div>
 
 <p class="figure-caption figure-caption-center"><strong>Fig. 1.</strong> Constrained Creativity may look counterintuitive at first: constraints seem like they would limit AI’s utility. But in many domains, unbounded creativity is actually counterproductive. Jazz is a classic example, where structural constraints help enable creative musical expression.</p>
 

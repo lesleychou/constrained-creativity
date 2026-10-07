@@ -797,6 +797,24 @@ html[data-theme="light"] .icon-cmu{
     min-width: 0;
     overflow-x: auto;
 }
+/* two diagrams compared side by side with a grey rule between them (Fig. 1).
+   Column widths follow the images' natural widths (792 and 999 px) so both
+   are drawn at the same scale; they stack on a phone (see the max-width:
+   700px block) */
+.content .figure-compare{
+    display: grid;
+    grid-template-columns: minmax(0, 792fr) 1px minmax(0, 999fr);
+    column-gap: var(--space-lg);
+    align-items: start;
+}
+.content .figure-compare > img{
+    width: 100%;
+    margin: 0;
+}
+.content .figure-compare > .figure-divider{
+    align-self: stretch;
+    background: var(--hairline-strong);
+}
 /* diagrams drawn for a white page keep their transparent background in light
    mode, but sit on a light card in dark mode so their dark text stays legible */
 html:not([data-theme="light"]) .content .figure-card img{
@@ -816,6 +834,18 @@ html:not([data-theme="light"]) .content .figure-pair.figure-card{
 html:not([data-theme="light"]) .content .figure-pair.figure-card > img{
     padding: 0;
     background: none;
+}
+html:not([data-theme="light"]) .content .figure-compare.figure-card{
+    padding: var(--space-md);
+    border-radius: 8px;
+    background: #ffffff;
+}
+html:not([data-theme="light"]) .content .figure-compare.figure-card > img{
+    padding: 0;
+    background: none;
+}
+html:not([data-theme="light"]) .content .figure-compare > .figure-divider{
+    background: #cccccc;
 }
 html:not([data-theme="light"]) .content .figure-card [data-vega]{
     color-scheme: light;
@@ -1204,6 +1234,22 @@ a.subscribe-button,
     .content .figure-pair > img{
         width: min(100%, 460px);
         margin: 0 auto;
+    }
+    /* stacked: the rule turns horizontal, and the narrower free-form diagram
+       keeps its 792:999 width ratio so both stay at the same scale */
+    .content .figure-compare{
+        grid-template-columns: minmax(0, 1fr);
+        row-gap: var(--space-md);
+    }
+    .content .figure-compare > .figure-divider{
+        height: 1px;
+    }
+    .content .figure-compare > img{
+        width: min(100%, 460px);
+        margin: 0 auto;
+    }
+    .content .figure-compare > img:first-child{
+        width: min(79.3%, 365px);
     }
     .content .figure svg{
         max-width: none;
