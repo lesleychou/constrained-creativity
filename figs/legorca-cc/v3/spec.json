@@ -1,0 +1,126 @@
+{
+ "meta": {
+  "id": "legorca-cc",
+  "title": "LegoRCA",
+  "kind": "mechanism",
+  "figure_kind": "mechanism",
+  "column": "single",
+  "width_pt": 262,
+  "max_height_pt": 184,
+  "template": "mechanism",
+  "direction": "top-down",
+  "palette": "custom",
+  "font": "helvetica",
+  "step_markers": "none",
+  "language": "en",
+  "version": 3,
+  "mechanism": {
+   "group": "anatomy",
+   "groups": [],
+   "worked_example": false,
+   "base": "flowchart",
+   "arrangement": "single",
+   "delta_marking": "none",
+   "zoom_callout": false,
+   "notes": "clone of the CC panel in figs/freeform-vs-cc; one icon + at most one short line per box; operators drawn as Lego bricks"
+  },
+  "caption_draft": "LegoRCA instantiates Constrained Creativity: the LLM snaps RCA operators from the DSL into an analysis program that the runtime executes over telemetry, returning ranked root causes with evidence."
+ },
+ "style_overrides": {
+  "palette_roles": {
+   "module": "#e7e7e7",
+   "stroke": "#262626",
+   "text": "#262626",
+   "accent": "#C2410C",
+   "x-accent_fill": "#FDEBDD"
+  }
+ },
+ "nodes": [
+  {
+   "id": "task",
+   "label": "Task",
+   "sublabel": "login failures \u2191 at 10am",
+   "kind": "module",
+   "role": "existing"
+  },
+  {
+   "id": "llm",
+   "label": "LLM",
+   "kind": "module",
+   "role": "existing"
+  },
+  {
+   "id": "program",
+   "label": "DSL program",
+   "kind": "module",
+   "role": "novel"
+  },
+  {
+   "id": "answer",
+   "label": "Answer",
+   "sublabel": "ranked root causes",
+   "kind": "module",
+   "role": "novel"
+  },
+  {
+   "id": "dsl",
+   "label": "DSL / Playbook",
+   "kind": "module",
+   "role": "novel"
+  },
+  {
+   "id": "runtime",
+   "label": "DSL runtime engine",
+   "kind": "module",
+   "role": "novel"
+  }
+ ],
+ "edges": [
+  {
+   "id": "e-1",
+   "from": "task",
+   "to": "llm",
+   "kind": "data"
+  },
+  {
+   "id": "e-2",
+   "from": "llm",
+   "to": "program",
+   "kind": "data"
+  },
+  {
+   "id": "e-3",
+   "from": "program",
+   "to": "answer",
+   "kind": "data"
+  },
+  {
+   "id": "e-dsl",
+   "from": "dsl",
+   "to": "llm",
+   "kind": "data"
+  },
+  {
+   "id": "e-run",
+   "from": "program",
+   "to": "runtime",
+   "kind": "data",
+   "label": "executes"
+  },
+  {
+   "id": "e-iter",
+   "from": "program",
+   "to": "llm",
+   "kind": "feedback",
+   "style": "dashed",
+   "label": "iterate"
+  }
+ ],
+ "annotations": [
+  {
+   "id": "title",
+   "kind": "label",
+   "text": "LegoRCA"
+  }
+ ]
+}

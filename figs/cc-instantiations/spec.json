@@ -1,0 +1,142 @@
+{
+ "meta": {
+  "id": "cc-instantiations",
+  "title": "LegoRCA as Constrained Creativity",
+  "kind": "mechanism",
+  "figure_kind": "mechanism",
+  "column": "double",
+  "width_pt": 504,
+  "max_height_pt": 250,
+  "template": "mechanism",
+  "direction": "top-down",
+  "palette": "custom",
+  "font": "helvetica",
+  "step_markers": "circled-numbers",
+  "language": "en",
+  "version": 1,
+  "mechanism": {
+   "group": "anatomy",
+   "groups": [],
+   "worked_example": false,
+   "base": "flowchart",
+   "arrangement": "single",
+   "delta_marking": "none",
+   "zoom_callout": false,
+   "notes": "clone of the CC panel in figs/freeform-vs-cc, boxes keep CC role titles; LegoRCA instance as sublabels"
+  },
+  "caption_draft": "LegoRCA instantiates Constrained Creativity: each box keeps its role from Fig. X and shows LegoRCA's instance."
+ },
+ "style_overrides": {
+  "palette_roles": {
+   "module": "#e7e7e7",
+   "stroke": "#262626",
+   "text": "#262626",
+   "accent": "#C2410C",
+   "x-accent_fill": "#FDEBDD"
+  }
+ },
+ "nodes": [
+  {
+   "id": "task",
+   "label": "Task",
+   "sublabel": "KPI alert + baseline / anomalous windows (+ analyst hint) / e.g. shipping-service avg latency \u2191, 14:00\u201314:30",
+   "kind": "module",
+   "role": "existing"
+  },
+  {
+   "id": "llm",
+   "label": "LLM",
+   "sublabel": "Gemini-3.1-Pro: reads operator signatures + schema, / never the telemetry itself",
+   "kind": "module",
+   "role": "existing"
+  },
+  {
+   "id": "program",
+   "label": "DSL program",
+   "kind": "module",
+   "role": "novel"
+  },
+  {
+   "id": "answer",
+   "label": "Answer",
+   "sublabel": "ranked leads, each with score + evidence / #1  frontend-1: container network latency",
+   "kind": "module",
+   "role": "novel"
+  },
+  {
+   "id": "dsl",
+   "label": "DSL / Playbook",
+   "sublabel": "grammar: typed, loop-free DAG \u2192 one answer / 19 operators: 7 generate \u00b7 10 score \u00b7 2 summarize / 11 playbooks, specialised per deployment",
+   "kind": "module",
+   "role": "novel"
+  },
+  {
+   "id": "runtime",
+   "label": "DSL runtime engine",
+   "sublabel": "verifier: operators exist \u00b7 types match \u00b7 acyclic / Ray executor: parallel SQL / ML ops, cached, local",
+   "kind": "module",
+   "role": "novel"
+  }
+ ],
+ "edges": [
+  {
+   "id": "e-1",
+   "from": "task",
+   "to": "llm",
+   "kind": "data"
+  },
+  {
+   "id": "e-2",
+   "from": "llm",
+   "to": "program",
+   "kind": "data"
+  },
+  {
+   "id": "e-3",
+   "from": "program",
+   "to": "answer",
+   "kind": "data"
+  },
+  {
+   "id": "e-dsl",
+   "from": "dsl",
+   "to": "llm",
+   "kind": "data"
+  },
+  {
+   "id": "e-run",
+   "from": "program",
+   "to": "runtime",
+   "kind": "data",
+   "label": "executes"
+  },
+  {
+   "id": "e-evolve",
+   "from": "runtime",
+   "to": "dsl",
+   "kind": "feedback",
+   "style": "dashed",
+   "label": "stage 3: admit new operators"
+  },
+  {
+   "id": "e-iter",
+   "from": "program",
+   "to": "llm",
+   "kind": "feedback",
+   "style": "dashed",
+   "label": "iterate"
+  }
+ ],
+ "annotations": [
+  {
+   "id": "stages",
+   "kind": "callout",
+   "text": "1 pick a playbook / 2 compose a new DAG / 3 evolve operators"
+  },
+  {
+   "id": "title",
+   "kind": "label",
+   "text": "LegoRCA as Constrained Creativity"
+  }
+ ]
+}

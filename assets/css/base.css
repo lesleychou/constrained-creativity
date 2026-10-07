@@ -472,6 +472,7 @@ html[data-theme="light"] .icon-cmu{
 .content > .figure,
 .content > .figure + *{ --flow: var(--space-xl); }
 .content > .foot-note{ --flow: var(--space-lg); }
+.content > .entry-meta + .entry-meta{ --flow: 0.25rem; }
 .content > .entry-card + .entry-card{ --flow: var(--space-lg); }
 .content li + li{ margin-block-start: var(--space-xs); }
 .entry-card > * + *{ --flow: var(--space-xs); }
@@ -566,6 +567,24 @@ html[data-theme="light"] .icon-cmu{
 .content .table-soft td:first-child{ white-space: nowrap; }
 .content .table-soft th:last-child{ color: var(--accent-color); }
 .content .table-soft td:last-child{ box-shadow: inset 3px 0 0 var(--accent-color); }
+/* a denser soft table for many columns: class="table-soft table-compact" */
+.content .table-compact table{
+    font-size: 14px;
+    line-height: 1.45;
+}
+.content .table-compact th,
+.content .table-compact td{
+    padding: var(--space-sm) var(--space-md);
+}
+.content .table-compact th{ font-size: 16px; }
+.content .table-compact td:first-child{ white-space: normal; }
+@media (min-width: 701px){
+    .content .table-compact table{ table-layout: fixed; }
+    .content .table-compact th:nth-child(1){ width: 16%; }
+    .content .table-compact th:nth-child(2){ width: 20%; }
+    .content .table-compact th:nth-child(3){ width: 20%; }
+    .content .table-compact th:nth-child(4){ width: 44%; }
+}
 .content > .table-wrap{ --flow: var(--space-lg); }
 .content > .table-wrap + *{ --flow: var(--space-lg); }
 
@@ -760,6 +779,30 @@ html[data-theme="light"] .icon-cmu{
     display: block;
     width: min(100%, 460px) !important;
     margin: 0 auto;
+}
+
+/* a diagram beside the chart of its results; stacks on a phone (see the
+   max-width: 700px block) */
+.content .figure-pair{
+    display: grid;
+    grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+    gap: var(--space-lg);
+    align-items: center;
+}
+.content .figure-pair > img{
+    width: 100%;
+    border-radius: 6px;
+}
+.content .figure-pair > [data-vega]{
+    min-width: 0;
+    overflow-x: auto;
+}
+/* diagrams drawn for a white page keep their transparent background in light
+   mode, but sit on a light card in dark mode so their dark text stays legible */
+html:not([data-theme="light"]) .content .figure-card img{
+    box-sizing: border-box;
+    padding: var(--space-sm);
+    background: #f4f3ef;
 }
 
 /* call-to-action box */
@@ -1126,6 +1169,13 @@ a.subscribe-button,
        which was squashing the legend rather than just widening the figure */
     .content .figure{
         overflow-x: auto;
+    }
+    .content .figure-pair{
+        grid-template-columns: minmax(0, 1fr);
+    }
+    .content .figure-pair > img{
+        width: min(100%, 460px);
+        margin: 0 auto;
     }
     .content .figure svg{
         max-width: none;

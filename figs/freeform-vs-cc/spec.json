@@ -1,0 +1,257 @@
+{
+ "meta": {
+  "id": "freeform-vs-cc",
+  "title": "Free-form LLM vs. Constrained Creativity",
+  "kind": "mechanism",
+  "figure_kind": "mechanism",
+  "column": "double",
+  "width_pt": 504,
+  "max_height_pt": 196,
+  "template": "mechanism",
+  "direction": "top-down",
+  "panels": 2,
+  "palette": "custom",
+  "font": "helvetica",
+  "step_markers": "none",
+  "language": "en",
+  "version": 1,
+  "mechanism": {
+   "group": "comparison",
+   "groups": [],
+   "worked_example": false,
+   "base": "flowchart",
+   "arrangement": "panels-row",
+   "frame_template": "aligned",
+   "delta_marking": "colour",
+   "zoom_callout": false,
+   "notes": "same four-row skeleton and iterate loop in both panels at identical positions; CC additions (DSL/Playbook, DSL runtime) sit in a side column; verdicts beside each answer"
+  },
+  "caption_draft": "Free-form LLM agents (left) emit arbitrary code or text: expressive, but hard to explain, unreliable\nand costly. With Constrained Creativity (right), the LLM writes programs in a DSL of safe building blocks that a\ndedicated runtime executes, so answers stay expressive and come with evidence."
+ },
+ "panels": [
+  {
+   "id": "p-free",
+   "label": "Free-form LLM",
+   "axis": "alternatives",
+   "order": 0,
+   "differs": "",
+   "verdict": "expressive; not explainable, effective or efficient"
+  },
+  {
+   "id": "p-cc",
+   "label": "Constrained Creativity",
+   "axis": "alternatives",
+   "order": 1,
+   "template_of": "p-free",
+   "differs": "DSL/Playbook constrains the LLM to emit DSL programs run by a DSL runtime engine",
+   "verdict": "expressive, explainable, effective, efficient"
+  }
+ ],
+ "style_overrides": {
+  "palette_roles": {
+   "module": "#e7e7e7",
+   "stroke": "#262626",
+   "text": "#262626",
+   "accent": "#C2410C",
+   "x-accent_fill": "#FDEBDD"
+  }
+ },
+ "nodes": [
+  {
+   "id": "free-task",
+   "label": "Task",
+   "kind": "module",
+   "role": "existing",
+   "panel": "p-free"
+  },
+  {
+   "id": "free-llm",
+   "label": "LLM",
+   "kind": "module",
+   "role": "existing",
+   "panel": "p-free"
+  },
+  {
+   "id": "free-out",
+   "label": "Arbitrary programs / text",
+   "kind": "module",
+   "role": "baseline",
+   "panel": "p-free"
+  },
+  {
+   "id": "free-ans",
+   "label": "Answer",
+   "sublabel": "no evidence",
+   "kind": "module",
+   "role": "baseline",
+   "panel": "p-free"
+  },
+  {
+   "id": "cc-task",
+   "label": "Task",
+   "kind": "module",
+   "role": "existing",
+   "panel": "p-cc"
+  },
+  {
+   "id": "cc-llm",
+   "label": "LLM",
+   "kind": "module",
+   "role": "existing",
+   "panel": "p-cc"
+  },
+  {
+   "id": "cc-out",
+   "label": "DSL program",
+   "kind": "module",
+   "role": "novel",
+   "panel": "p-cc"
+  },
+  {
+   "id": "cc-ans",
+   "label": "Answer",
+   "sublabel": "explained, with evidence",
+   "kind": "module",
+   "role": "novel",
+   "panel": "p-cc"
+  },
+  {
+   "id": "cc-dsl",
+   "label": "DSL / Playbook",
+   "kind": "module",
+   "role": "novel",
+   "panel": "p-cc"
+  },
+  {
+   "id": "cc-runtime",
+   "label": "DSL runtime engine",
+   "kind": "module",
+   "role": "novel",
+   "panel": "p-cc"
+  }
+ ],
+ "edges": [
+  {
+   "id": "e-free-1",
+   "from": "free-task",
+   "to": "free-llm",
+   "kind": "data"
+  },
+  {
+   "id": "e-free-2",
+   "from": "free-llm",
+   "to": "free-out",
+   "kind": "data"
+  },
+  {
+   "id": "e-free-3",
+   "from": "free-out",
+   "to": "free-ans",
+   "kind": "data"
+  },
+  {
+   "id": "e-free-iter",
+   "from": "free-out",
+   "to": "free-llm",
+   "kind": "feedback",
+   "style": "dashed",
+   "label": "iterate"
+  },
+  {
+   "id": "e-cc-1",
+   "from": "cc-task",
+   "to": "cc-llm",
+   "kind": "data"
+  },
+  {
+   "id": "e-cc-2",
+   "from": "cc-llm",
+   "to": "cc-out",
+   "kind": "data"
+  },
+  {
+   "id": "e-cc-3",
+   "from": "cc-out",
+   "to": "cc-ans",
+   "kind": "data"
+  },
+  {
+   "id": "e-cc-iter",
+   "from": "cc-out",
+   "to": "cc-llm",
+   "kind": "feedback",
+   "style": "dashed",
+   "label": "iterate"
+  },
+  {
+   "id": "e-cc-dsl",
+   "from": "cc-dsl",
+   "to": "cc-llm",
+   "kind": "data"
+  },
+  {
+   "id": "e-cc-run",
+   "from": "cc-out",
+   "to": "cc-runtime",
+   "kind": "data",
+   "label": "executes"
+  }
+ ],
+ "annotations": [
+  {
+   "id": "v-free-expressive",
+   "kind": "verdict",
+   "text": "\u2713 Expressive"
+  },
+  {
+   "id": "v-free-explainable",
+   "kind": "verdict",
+   "text": "\u2717 Explainable"
+  },
+  {
+   "id": "v-free-effective",
+   "kind": "verdict",
+   "text": "\u2717 Effective"
+  },
+  {
+   "id": "v-free-efficient",
+   "kind": "verdict",
+   "text": "\u2717 Efficient"
+  },
+  {
+   "id": "v-cc-expressive",
+   "kind": "verdict",
+   "text": "\u2713 Expressive"
+  },
+  {
+   "id": "v-cc-explainable",
+   "kind": "verdict",
+   "text": "\u2713 Explainable"
+  },
+  {
+   "id": "v-cc-effective",
+   "kind": "verdict",
+   "text": "\u2713 Effective"
+  },
+  {
+   "id": "v-cc-efficient",
+   "kind": "verdict",
+   "text": "\u2713 Efficient"
+  },
+  {
+   "id": "title-free",
+   "kind": "label",
+   "text": "Free-form LLM"
+  },
+  {
+   "id": "title-cc",
+   "kind": "label",
+   "text": "Constrained Creativity"
+  },
+  {
+   "id": "divider",
+   "kind": "label",
+   "text": "panel divider"
+  }
+ ]
+}

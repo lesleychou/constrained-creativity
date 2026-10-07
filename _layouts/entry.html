@@ -6,7 +6,8 @@ layout: base
     <div class="content">
         <h2>{{ page.title }}</h2>
         {% if page.subtitle %}<p class="entry-subtitle">{{ page.subtitle }}</p>{% endif %}
-        <p class="entry-meta">{% include byline.html authors=page.authors %} &middot; {{ page.date | date: "%B %-d, %Y" }}</p>
+        <p class="entry-meta">{% if page.researchers %}Written by {% endif %}{% include byline.html authors=page.authors %} &middot; {{ page.date | date: "%B %-d, %Y" }}</p>
+        {% if page.researchers %}<p class="entry-meta">{% if page.research %}<a href="{{ page.research }}">Research</a>{% else %}Research{% endif %} by {% include byline.html authors=page.researchers and=true %}</p>{% endif %}
         {% if page.download %}<p class="entry-links"><a href="{{ page.download }}">Download</a></p>{% endif %}
         {{ content }}
     </div>

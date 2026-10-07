@@ -1,0 +1,153 @@
+{
+ "meta": {
+  "id": "legorca-cc",
+  "title": "LegoRCA: root cause analysis via Constrained Creativity",
+  "kind": "mechanism",
+  "figure_kind": "mechanism",
+  "column": "single",
+  "width_pt": 290,
+  "max_height_pt": 229,
+  "template": "mechanism",
+  "direction": "top-down",
+  "palette": "custom",
+  "font": "helvetica",
+  "step_markers": "none",
+  "language": "en",
+  "version": 4,
+  "mechanism": {
+   "group": "anatomy",
+   "groups": [],
+   "worked_example": true,
+   "base": "flowchart",
+   "arrangement": "single",
+   "delta_marking": "none",
+   "zoom_callout": false,
+   "notes": "GPT sketch organisation: CC block per row on the left, one small example on the right"
+  },
+  "caption_draft": "LegoRCA instantiates each block of Constrained Creativity; the right column shows one example per block."
+ },
+ "style_overrides": {
+  "palette_roles": {
+   "module": "#e7e7e7",
+   "stroke": "#262626",
+   "text": "#262626",
+   "accent": "#C2410C",
+   "x-accent_fill": "#FDEBDD"
+  }
+ },
+ "nodes": [
+  {
+   "id": "task",
+   "label": "Task",
+   "kind": "module",
+   "role": "existing"
+  },
+  {
+   "id": "dsl",
+   "label": "DSL / Playbook",
+   "kind": "module",
+   "role": "novel"
+  },
+  {
+   "id": "llm",
+   "label": "LLM",
+   "kind": "module",
+   "role": "existing"
+  },
+  {
+   "id": "program",
+   "label": "DSL program",
+   "kind": "module",
+   "role": "novel"
+  },
+  {
+   "id": "runtime",
+   "label": "DSL runtime engine",
+   "kind": "module",
+   "role": "novel"
+  },
+  {
+   "id": "answer",
+   "label": "Answer",
+   "kind": "module",
+   "role": "novel"
+  }
+ ],
+ "edges": [
+  {
+   "id": "e-task-dsl",
+   "from": "task",
+   "to": "dsl",
+   "kind": "data"
+  },
+  {
+   "id": "e-dsl-llm",
+   "from": "dsl",
+   "to": "llm",
+   "kind": "data"
+  },
+  {
+   "id": "e-llm-program",
+   "from": "llm",
+   "to": "program",
+   "kind": "data"
+  },
+  {
+   "id": "e-program-runtime",
+   "from": "program",
+   "to": "runtime",
+   "kind": "data"
+  },
+  {
+   "id": "e-runtime-answer",
+   "from": "runtime",
+   "to": "answer",
+   "kind": "data"
+  },
+  {
+   "id": "e-iter",
+   "from": "runtime",
+   "to": "llm",
+   "kind": "feedback",
+   "style": "dashed",
+   "label": "iterate"
+  }
+ ],
+ "annotations": [
+  {
+   "id": "task-ex",
+   "kind": "callout",
+   "text": "example: Task"
+  },
+  {
+   "id": "dsl-ex",
+   "kind": "callout",
+   "text": "example: DSL / Playbook"
+  },
+  {
+   "id": "llm-ex",
+   "kind": "callout",
+   "text": "example: LLM"
+  },
+  {
+   "id": "program-ex",
+   "kind": "callout",
+   "text": "example: DSL program"
+  },
+  {
+   "id": "runtime-ex",
+   "kind": "callout",
+   "text": "example: DSL runtime engine"
+  },
+  {
+   "id": "answer-ex",
+   "kind": "callout",
+   "text": "example: Answer"
+  },
+  {
+   "id": "title",
+   "kind": "label",
+   "text": "LegoRCA: root cause analysis via Constrained Creativity"
+  }
+ ]
+}

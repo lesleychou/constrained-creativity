@@ -3,8 +3,10 @@
 {%- assign roster = roster | concat: section.members -%}
 {%- endfor -%}
 {%- for id in include.authors -%}
-{%- assign person = roster | where: 'id', id | first -%}
-{%- if forloop.index > 1 %}, {% endif -%}
+{%- if id.name -%}{%- assign person = id -%}
+{%- else -%}{%- assign person = roster | where: 'id', id | first -%}
+{%- endif -%}
+{%- if forloop.index > 1 %}, {% if include.and and forloop.last %}and {% endif %}{% endif -%}
 {%- if person.website -%}<a href="{{ person.website }}">{{ person.name }}</a>
 {%- elsif person -%}{{ person.name }}
 {%- else -%}{{ id }}

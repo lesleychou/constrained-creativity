@@ -27,7 +27,7 @@
     }
   ],
   "width": "container",
-  "height": 420,
+  "height": 360,
   "autosize": {
     "type": "fit",
     "contains": "padding"
@@ -132,11 +132,13 @@
         "color": {
           "field": "harness",
           "type": "nominal",
-          "sort": [
-            "Incalmo",
-            "Artemis",
-            "Shell"
-          ]
+          "scale": {
+            "domain": [
+              "Artemis",
+              "Incalmo",
+              "Shell"
+            ]
+          }
         }
       }
     },
@@ -303,11 +305,21 @@
           "field": "harness",
           "type": "nominal",
           "title": "Harness",
-          "sort": [
-            "Incalmo",
-            "Artemis",
-            "Shell"
-          ]
+          "scale": {
+            "domain": [
+              "Artemis",
+              "Incalmo",
+              "Shell"
+            ]
+          },
+          "legend": {
+            "orient": "top-right",
+            "values": [
+              "Incalmo",
+              "Artemis",
+              "Shell"
+            ]
+          }
         },
         "shape": {
           "field": "model",
@@ -324,6 +336,9 @@
               "triangle-up",
               "square"
             ]
+          },
+          "legend": {
+            "orient": "top-right"
           }
         },
         "tooltip": [
@@ -476,5 +491,16 @@
       }
     }
   ],
+  "config": {
+    "legend": {
+      "layout": {
+        "top-right": {
+          "anchor": "start",
+          "direction": "vertical",
+          "margin": 4
+        }
+      }
+    }
+  },
   "_minMobileWidth": 580
 }
