@@ -1227,6 +1227,13 @@ a.subscribe-button,
     .content .figure .vega-embed{
         width: max-content;
     }
+    /* ...except a chart that sizes itself to its container ("width":
+       "container", which vega-embed marks with .fit-x) and has no
+       _minMobileWidth to fall back on: hugging its content and filling its
+       box would wait on each other and collapse the chart to 0px wide */
+    .content .figure .vega-embed:has(> .chart-wrapper.fit-x){
+        width: 100%;
+    }
     .content .figure .vega-embed summary{
         padding: 2px 4px;
         border-radius: 4px !important;
