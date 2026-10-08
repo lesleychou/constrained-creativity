@@ -2,7 +2,7 @@
 title: Making Agents More Reliable with Constrained Creativity
 subtitle: The counterintuitive path to more capable, lower-cost AI
 date: 2026-10-07
-authors: [lesley-zhou, vyas-sekar, "..."]
+authors: [lesley-zhou, vyas-sekar]
 research: https://kilthub.cmu.edu/articles/preprint/Constrained_Creativity_for_SysOps_Agents/33138296
 researchers:
   - { name: Sayan Sinha, website: "https://americast.github.io/" }
