@@ -1,6 +1,6 @@
 ---
 layout: publications
-title: Publications
+title: Reading List
 description: Papers behind the Constrained Creativity blog series.
 permalink: /publications/
 ---
@@ -9,5 +9,6 @@ permalink: /publications/
 {% assign years = entries | group_by_exp: "entry", "entry.date | date: '%Y'" %}
 {% for year in years %}
 <h2>{{ year.name }}</h2>
-{% for entry in year.items %}{% include publication-card.html entry=entry %}{% endfor %}
+{% assign year_items = year.items | sort: 'order' %}
+{% for entry in year_items %}{% include publication-card.html entry=entry %}{% endfor %}
 {% endfor %}

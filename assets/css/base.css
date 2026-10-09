@@ -987,6 +987,17 @@ a.entry-title:hover{
     color: var(--accent-color);
     border-color: var(--accent-color);
 }
+/* paper titles are long, so set them in the body face rather than bold mono */
+.publication-card .entry-title{
+    font-family: var(--font-body);
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.4;
+    margin-top: 0.35rem;
+}
+.publication-card .entry-meta{
+    line-height: 1.6;
+}
 .venue{
     display: inline-block;
     padding: 2px 8px;

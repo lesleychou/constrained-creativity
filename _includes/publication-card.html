@@ -1,4 +1,4 @@
-<article class="entry-card">
+<article class="entry-card publication-card">
     {% if include.entry.venue %}{% if include.entry.venue_url %}<a class="venue" href="{{ include.entry.venue_url }}">{{ include.entry.venue }}</a>{% else %}<span class="venue">{{ include.entry.venue }}</span>{% endif %}{% endif %}
     <p class="entry-title">{{ include.entry.title }}</p>
     <p class="entry-meta">{% include byline.html authors=include.entry.authors %}</p>

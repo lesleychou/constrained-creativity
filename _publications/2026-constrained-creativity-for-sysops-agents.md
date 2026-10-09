@@ -1,6 +1,7 @@
 ---
 title: Constrained Creativity for SysOps Agents
 date: 2026-10-01
+order: 1
 authors:
   - Sayan Sinha
   - Vipul Harsh
