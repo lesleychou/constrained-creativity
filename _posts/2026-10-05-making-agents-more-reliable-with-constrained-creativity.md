@@ -55,8 +55,7 @@ The DSL then becomes **a language for AI to think in and execute against**. Inst
 
 We showcase how to build Constrained Creativity in two applications, and how it can improve accuracy while reducing cost.
 
-**Root cause analysis.** In the RCA task, we represent troubleshooting as reusable building blocks, such as generating possible causes, comparing them against normal behavior, and ranking the evidence. The AI can only combine these blocks into a diagnosis workflow instead of writing arbitrary analysis code. If the existing blocks are not enough, it can create new ones while still following the same DSL. This gives the agent room to handle new incidents, but keeps every analysis structured and checkable.
-<!-- TODO: cite LegoRCA (add to References). -->
+**Root cause analysis.** In the RCA task, E4 [[3]](#ref-3) represents troubleshooting as reusable building blocks, such as generating possible causes, comparing them against normal behavior, and ranking the evidence. The AI can only combine these blocks into a diagnosis workflow instead of writing arbitrary analysis code. If the existing blocks are not enough, it can create new ones while still following the same DSL. This gives the agent room to handle new incidents, but keeps every analysis structured and checkable.
 
 <div class="figure figure-pair figure-card">
   <img src="{{ '/assets/img/posts/constrained-creativity/legorca-cc.png' | relative_url }}" alt="Root cause analysis via Constrained Creativity. The task “Why did login failures spike at 10am?” goes to a DSL or playbook of blocks such as find change point, filter and rank candidates; the LLM picks a playbook or composes a new DAG; the DSL program chains find_change_point, filter and rank_candidates; a runtime engine runs it with SQL, statistics and ML, iterating with the LLM; the answer ranks clients in region R as the top cause.">
@@ -65,7 +64,7 @@ We showcase how to build Constrained Creativity in two applications, and how it 
 
 <p class="figure-caption figure-caption-center"><strong>Fig. 3.</strong> In RCA, constrained creativity achieves higher diagnostic accuracy while reducing analysis cost by up to 12×.</p>
 
-**Cybersecurity red-teaming.** Incalmo [[3]](#ref-3) follows the same idea for autonomous network attacks. Instead of letting an AI directly write low-level shell commands, it gives the agent higher-level actions such as *scan a network* or *infect a host*. Incalmo handles the messy low-level execution and keeps track of the network state. This lets the AI focus on deciding what to do next, rather than on how to implement every command correctly.
+**Cybersecurity red-teaming.** Incalmo [[4]](#ref-4) follows the same idea for autonomous network attacks. Instead of letting an AI directly write low-level shell commands, it gives the agent higher-level actions such as *scan a network* or *infect a host*. Incalmo handles the messy low-level execution and keeps track of the network state. This lets the AI focus on deciding what to do next, rather than on how to implement every command correctly.
 
 <div class="figure figure-pair figure-card">
   <img src="{{ '/assets/img/posts/constrained-creativity/incalmo-cc.png' | relative_url }}" alt="Cyber red-teaming via Constrained Creativity. The task “Gain access and exfiltrate sensitive data” goes to a DSL or playbook of actions such as scan, exploit and lateral move; the LLM plans a sequence of high-level attack actions; the DSL program runs Scan, LateralMove and ExfiltrateData; a runtime engine executes them with nmap, Metasploit and state tracking, iterating with the LLM; the answer is an attack path from foothold to pivot to finding data to exfiltration.">
@@ -80,16 +79,16 @@ We have recently seen synergies between Constrained Creativity and many newly re
 
 {% include modules/table.html data="cc-vs-x" class="table-soft table-compact" %}
 
-**Constrained Creativity vs. Jev and decision APIs.** [Jev](https://docs.typesafe.ai/primitives) from TypeSafe AI [[4]](#ref-4) follows a very similar philosophy with a specific set of decision primitives. Jev’s output space is deliberately narrow: rather than asking the model to directly answer a complex question, it asks the model to make one typed decision. TypeSafe explicitly recommends decomposing complex decisions into atomic questions and composing their answers in code. OpenAI’s latest decision APIs propose similar ideas.
+**Constrained Creativity vs. Jev and decision APIs.** [Jev](https://docs.typesafe.ai/primitives) from TypeSafe AI [[5]](#ref-5) follows a very similar philosophy with a specific set of decision primitives. Jev’s output space is deliberately narrow: rather than asking the model to directly answer a complex question, it asks the model to make one typed decision. TypeSafe explicitly recommends decomposing complex decisions into atomic questions and composing their answers in code. OpenAI’s latest decision APIs propose similar ideas.
 <!-- TODO: cite OpenAI decision APIs. -->
 
 Constrained Creativity is broader than a particular set of decision primitives (e.g., a classification, a boolean, or a score). It can use different abstractions: for example, query telemetry, compare two time windows, generate a candidate hypothesis, validate a configuration, or execute a controlled system action. The answering structure can also extend beyond atomic questions: the AI can form a sequential chain, a parallel DAG, an iterative workflow, or a finite-state machine. The abstraction itself can also evolve as the task requirements change.
 
-**Constrained Creativity vs. neuro-symbolic AI.** Neuro-symbolic AI also tries to combine the flexibility of neural models with explicit structure. The key idea is to connect neural learning or perception with symbolic knowledge and reasoning. For example, DeepProbLog [[5]](#ref-5) combines neural networks with probabilistic logic, while Neural Logic Machines [[6]](#ref-6) use neural networks to learn and execute logic-like rules.
+**Constrained Creativity vs. neuro-symbolic AI.** Neuro-symbolic AI also tries to combine the flexibility of neural models with explicit structure. The key idea is to connect neural learning or perception with symbolic knowledge and reasoning. For example, DeepProbLog [[6]](#ref-6) combines neural networks with probabilistic logic, while Neural Logic Machines [[7]](#ref-7) use neural networks to learn and execute logic-like rules.
 
 Constrained Creativity has a different goal. It does not require the neural model and the symbolic reasoning system to be integrated or jointly learned. The LLM can remain a black box. Instead, Constrained Creativity puts domain knowledge around the agent to define the space in which it can act, while leaving the model free to reason within that space.
 
-**Constrained Creativity vs. Structured LLM.** Researchers from UIUC proposed [Structured LLM](https://structuredllm.com/) [[7]](#ref-7), which shares a similar idea with Constrained Creativity. Their work focuses on making the model follow a given structure or grammar, such as valid JSON, code, or other structured outputs. This can make generation more reliable and easier for software to consume.
+**Constrained Creativity vs. Structured LLM.** Researchers from UIUC proposed [Structured LLM](https://structuredllm.com/) [[8]](#ref-8), which shares a similar idea with Constrained Creativity. Their work focuses on making the model follow a given structure or grammar, such as valid JSON, code, or other structured outputs. This can make generation more reliable and easier for software to consume.
 
 Constrained Creativity goes beyond constraining the format of the output. It constrains what actions the AI can take and how those actions can be combined. Structured LLM can be a concrete building block for Constrained Creativity at the decoding level, while Constrained Creativity designs the broader action space and workflow around the AI.
 
@@ -104,9 +103,10 @@ We are actively bringing Constrained Creativity to more critical applications ac
 <ol class="references">
   <li id="ref-1"><em>Constrained Creativity for SysOps Agents.</em> Preprint, 2026. Sayan Sinha, Vipul Harsh, Yajie Zhou, Marko Morrison, B. Aditya Prakash, Vyas Sekar, Hui Zhang. <a href="https://kilthub.cmu.edu/articles/preprint/Constrained_Creativity_for_SysOps_Agents/33138296?file=67183613">[preprint]</a></li>
   <li id="ref-2"><em>What will be left for us to work on.</em> ICML 2026 keynote. Arvind Narayanan. <a href="https://www.cs.princeton.edu/~arvindn/talks/icml-2026-annotated-slides/">[slides]</a></li>
-  <li id="ref-3"><em>Incalmo: An Autonomous LLM-Assisted System for Red Teaming Multi-Host Networks.</em> IEEE Symposium on Security and Privacy (S&amp;P), 2026. Brian Singer, Keane Lucas, Lakshmi Adiga, Meghna Jain, Lujo Bauer, Vyas Sekar. <a href="https://doi.org/10.1109/SP63933.2026.00132">[doi]</a></li>
-  <li id="ref-4"><em>Jev primitives.</em> TypeSafe AI documentation. <a href="https://docs.typesafe.ai/primitives">[docs]</a></li>
-  <li id="ref-5"><em>DeepProbLog: Neural Probabilistic Logic Programming.</em> NeurIPS, 2018. Robin Manhaeve, Sebastijan Dumančić, Angelika Kimmig, Thomas Demeester, Luc De Raedt. <a href="https://arxiv.org/abs/1805.10872">[arXiv]</a></li>
-  <li id="ref-6"><em>Neural Logic Machines.</em> ICLR, 2019. Honghua Dong, Jiayuan Mao, Tian Lin, Chong Wang, Lihong Li, Denny Zhou. <a href="https://arxiv.org/abs/1904.11694">[arXiv]</a></li>
-  <li id="ref-7"><em>Structured LLM.</em> UIUC. <a href="https://structuredllm.com/">[website]</a></li>
+  <li id="ref-3"><em>Agentic RCA for Internet-Scale Services Using Constrained Creativity.</em> Preprint, 2026. Sayan Sinha, Vipul Harsh, B. Aditya Prakash, Vyas Sekar, Hui Zhang. <a href="https://arxiv.org/abs/2610.08622">[arXiv]</a></li>
+  <li id="ref-4"><em>Incalmo: An Autonomous LLM-Assisted System for Red Teaming Multi-Host Networks.</em> IEEE Symposium on Security and Privacy (S&amp;P), 2026. Brian Singer, Keane Lucas, Lakshmi Adiga, Meghna Jain, Lujo Bauer, Vyas Sekar. <a href="https://doi.org/10.1109/SP63933.2026.00132">[doi]</a></li>
+  <li id="ref-5"><em>Jev primitives.</em> TypeSafe AI documentation. <a href="https://docs.typesafe.ai/primitives">[docs]</a></li>
+  <li id="ref-6"><em>DeepProbLog: Neural Probabilistic Logic Programming.</em> NeurIPS, 2018. Robin Manhaeve, Sebastijan Dumančić, Angelika Kimmig, Thomas Demeester, Luc De Raedt. <a href="https://arxiv.org/abs/1805.10872">[arXiv]</a></li>
+  <li id="ref-7"><em>Neural Logic Machines.</em> ICLR, 2019. Honghua Dong, Jiayuan Mao, Tian Lin, Chong Wang, Lihong Li, Denny Zhou. <a href="https://arxiv.org/abs/1904.11694">[arXiv]</a></li>
+  <li id="ref-8"><em>Structured LLM.</em> UIUC. <a href="https://structuredllm.com/">[website]</a></li>
 </ol>

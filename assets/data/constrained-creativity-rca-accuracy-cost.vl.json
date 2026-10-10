@@ -1,15 +1,15 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "_comment": [
-    "RCA accuracy vs. cost (constrained-creativity post, Fig. 4). Values are read off the LegoRCA scatter plot in the blog draft (approximate, +/- ~1 point / ~$0.05);",
-    "replace with the exact numbers from the LegoRCA evaluation before publishing."
+    "RCA accuracy vs. cost (constrained-creativity post, Fig. 4). Values are read off the E4 scatter plot in the blog draft (approximate, +/- ~1 point / ~$0.05);",
+    "replace with the exact numbers from the E4 evaluation before publishing."
   ],
   "width": "container",
   "height": 300,
   "data": {
     "values": [
       {
-        "method": "LegoRCA (Constrained Creativity)",
+        "method": "E4 (Constrained Creativity)",
         "cost": 0.28,
         "accuracy": 82.5,
         "group": "ours"
@@ -226,7 +226,7 @@
     {
       "transform": [
         {
-          "filter": "datum.method === 'LegoRCA (Constrained Creativity)'"
+          "filter": "datum.method === 'E4 (Constrained Creativity)'"
         }
       ],
       "mark": {
@@ -237,14 +237,14 @@
         "dy": -8,
         "fontSize": 15,
         "color": "$accent",
-        "text": "LegoRCA",
+        "text": "E4",
         "fontWeight": "bold"
       }
     },
     {
       "transform": [
         {
-          "filter": "datum.method === 'LegoRCA (Constrained Creativity)'"
+          "filter": "datum.method === 'E4 (Constrained Creativity)'"
         }
       ],
       "mark": {
